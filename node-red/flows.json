@@ -1,0 +1,317 @@
+[
+    {
+        "id": "fee0d3a148c10c77",
+        "type": "tab",
+        "label": "Flujo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a163ec660b026946",
+        "type": "serial in",
+        "z": "fee0d3a148c10c77",
+        "name": "Latido",
+        "serial": "d321f52a2bce6bc6",
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "a93fd5d0347642c4",
+                "9719a354cde6832b"
+            ]
+        ]
+    },
+    {
+        "id": "a93fd5d0347642c4",
+        "type": "debug",
+        "z": "fee0d3a148c10c77",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9719a354cde6832b",
+        "type": "function",
+        "z": "fee0d3a148c10c77",
+        "name": "function 1",
+        "func": "const str = msg.payload.toString().replace(/[\\r\\n]+/g, '').trim();\n\nconst mSENAL = str.match(/SEÑAL:(\\d+)/);\nconst mBPM   = str.match(/BPM:(\\d+)/);\n\nconst out = [null, null];\n\nif (mSENAL) out[0] = { payload: Number(mSENAL[1]), topic: \"Señal\" };\nif (mBPM && Number(mBPM[1]) > 0) out[1] = { payload: Number(mBPM[1]), topic: \"BPM\" };\n\nreturn out;\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "bb840ea7f038c8e7",
+                "bb5ace6a201b96ae"
+            ],
+            [
+                "2c7d435cbfb3efaf"
+            ]
+        ]
+    },
+    {
+        "id": "bb840ea7f038c8e7",
+        "type": "ui-chart",
+        "z": "fee0d3a148c10c77",
+        "group": "8c76ba1215c41844",
+        "name": "Pulso",
+        "label": "SEÑAL",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "linear",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "4095",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "false",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "1000",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": 8,
+        "className": "",
+        "interpolation": "linear",
+        "x": 530,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bb5ace6a201b96ae",
+        "type": "debug",
+        "z": "fee0d3a148c10c77",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "2c7d435cbfb3efaf",
+        "type": "ui-gauge",
+        "z": "fee0d3a148c10c77",
+        "name": "BPM",
+        "group": "8c76ba1215c41844",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "gauge",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "units",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "60-100",
+                "textType": "str"
+            },
+            {
+                "from": "4",
+                "color": "#ffc800",
+                "text": "100-140",
+                "textType": "str"
+            },
+            {
+                "from": "7",
+                "color": "#ea5353",
+                "text": "140",
+                "textType": "str"
+            }
+        ],
+        "min": "30",
+        "max": "200",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 470,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d321f52a2bce6bc6",
+        "type": "serial-port",
+        "name": "Latido",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "8c76ba1215c41844",
+        "type": "ui-group",
+        "name": "Sensores",
+        "page": "86c044b902020136",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "86c044b902020136",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "ebc0cc9c4fce54d5",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "cef9b14da3f8aec4",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "ebc0cc9c4fce54d5",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "cef9b14da3f8aec4",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "a91221d9d0af3ea0",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-serialport": "2.0.3",
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
